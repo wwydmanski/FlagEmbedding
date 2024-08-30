@@ -469,7 +469,7 @@ class LayerWiseFlagLLMReranker:
         self.model = AutoModelForCausalLM.from_pretrained(model_name_or_path,
                                                           cache_dir=cache_dir,
                                                           trust_remote_code=True,
-                                                          local_files_only=True,
+                                                          local_files_only=False,
                                                           torch_dtype=torch.bfloat16 if use_bf16 else torch.float32)
         if peft_path:
             self.model = PeftModel.from_pretrained(self.model,peft_path)
@@ -661,7 +661,7 @@ class LightWeightFlagLLMReranker:
         self.model = AutoModelForCausalLM.from_pretrained(model_name_or_path,
                                                           cache_dir=cache_dir,
                                                           trust_remote_code=True,
-                                                          local_files_only=True,
+                                                          local_files_only=False,
                                                           torch_dtype=torch.bfloat16 if use_bf16 else torch.float32)
         if peft_path:
             self.model = PeftModel.from_pretrained(self.model,peft_path)
