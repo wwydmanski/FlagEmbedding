@@ -652,8 +652,13 @@ class LightWeightFlagLLMReranker:
             cache_dir: str = None,
             device: Union[str, int] = None
     ) -> None:
+        if "@" in model_name_or_path:
+            revision = model_name_or_path.split("@")[1]
+            model_name_or_path = model_name_or_path.split("@")[0]
+            
         self.tokenizer = AutoTokenizer.from_pretrained(model_name_or_path,
                                                        cache_dir=cache_dir,
+                                                       revision=revision,
                                                        trust_remote_code=True)
         self.tokenizer.padding_side = 'right'
 
@@ -665,6 +670,7 @@ class LightWeightFlagLLMReranker:
                                                           cache_dir=cache_dir,
                                                           trust_remote_code=True,
                                                           local_files_only=False,
+                                                          revision=revision,
                                                           torch_dtype=torch.bfloat16 if use_bf16 else torch.float32)
         if peft_path:
             self.model = PeftModel.from_pretrained(self.model,peft_path)
