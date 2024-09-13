@@ -650,12 +650,9 @@ class LightWeightFlagLLMReranker:
             use_fp16: bool = False,
             use_bf16: bool = False,
             cache_dir: str = None,
-            device: Union[str, int] = None
-    ) -> None:
-        if "@" in model_name_or_path:
-            revision = model_name_or_path.split("@")[1]
-            model_name_or_path = model_name_or_path.split("@")[0]
-            
+            device: Union[str, int] = None,
+            revision: str = None
+    ) -> None:            
         self.tokenizer = AutoTokenizer.from_pretrained(model_name_or_path,
                                                        cache_dir=cache_dir,
                                                        revision=revision,
