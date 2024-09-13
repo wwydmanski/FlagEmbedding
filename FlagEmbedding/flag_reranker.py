@@ -213,9 +213,12 @@ class FlagReranker:
             cache_dir: str = None,
             device: Union[str, int] = None
     ) -> None:
+        if "@" in model_name_or_path:
+            revision = model_name_or_path.split("@")[1]
+            model_name_or_path = model_name_or_path.split("@")[0]
 
-        self.tokenizer = AutoTokenizer.from_pretrained(model_name_or_path, cache_dir=cache_dir)
-        self.model = AutoModelForSequenceClassification.from_pretrained(model_name_or_path, cache_dir=cache_dir)
+        self.tokenizer = AutoTokenizer.from_pretrained(model_name_or_path, cache_dir=cache_dir, revision=revision)
+        self.model = AutoModelForSequenceClassification.from_pretrained(model_name_or_path, cache_dir=cache_dir, revision=revision)
 
         if device and isinstance(device, str):
             self.device = torch.device(device)
